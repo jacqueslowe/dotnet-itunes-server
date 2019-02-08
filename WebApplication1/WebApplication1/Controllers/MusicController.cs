@@ -1,36 +1,41 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
-    public class MusicController
+    public class MusicController : Controller
     {
         private string appleURI = "https://itunes.apple.com/search?";
         private int searchLimit = 25;
         private string entityType = "song";
 
         // route example: http://localhost:49887/music/?artist=air
-        [Microsoft.AspNetCore.Mvc.Route("{artist}")]
-        public async Task<AppleResponse> Index([FromQuery] string artist)
+        [HttpGet("/music")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(200, Type = typeof(AppleResponse))]
+        public async Task<IActionResult> Get([FromQuery]string artist)
         {
             string url = appleURI +
-                    "term=" + artist + 
+                    "term=" + artist +
                     "&limit=" + searchLimit +
                     "&entity=" + entityType;
-            if(artist != null )
+            if (artist == null)
             {
-                var jsonString = await this.GetAsync(url);
-                var response = JsonConvert.DeserializeObject<AppleResponse>(jsonString);
-
-                return response;
+                return BadRequest();
             }
-            return new AppleResponse();
+
+            var jsonString = await this.GetAsync(url);
+            var appleResponse = JsonConvert.DeserializeObject<AppleResponse>(jsonString);
+            if (appleResponse == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(appleResponse);
         }
 
         public async Task<string> GetAsync(string uri)
