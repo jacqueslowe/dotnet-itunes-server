@@ -19,14 +19,15 @@ namespace WebApplication1.Controllers
         [ProducesResponseType(200, Type = typeof(AppleResponse))]
         public async Task<IActionResult> Get([FromQuery]string artist)
         {
-            string url = appleURI +
-                    "term=" + artist +
-                    "&limit=" + searchLimit +
-                    "&entity=" + entityType;
             if (artist == null)
             {
                 return BadRequest();
             }
+
+            string url = appleURI +
+                   "term=" + artist +
+                   "&limit=" + searchLimit +
+                   "&entity=" + entityType;
 
             var jsonString = await this.GetAsync(url);
             var appleResponse = JsonConvert.DeserializeObject<AppleResponse>(jsonString);
