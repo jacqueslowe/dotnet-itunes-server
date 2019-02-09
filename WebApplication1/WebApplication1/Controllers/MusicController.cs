@@ -9,9 +9,6 @@ namespace WebApplication1.Controllers
 {
     public class MusicController : Controller
     {
-        
-       
-
         // request example: http://localhost:49887/music/?artist=air
         [HttpGet("/music")]
         [ProducesResponseType(400)]
