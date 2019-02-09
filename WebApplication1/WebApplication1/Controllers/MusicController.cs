@@ -9,7 +9,7 @@ namespace WebApplication1.Controllers
 {
     public class MusicController : Controller
     {
-        // request example: http://localhost:49887/music/?artist=air
+        // request example: http://localhost:49886/music/?artist=air
         [HttpGet("/music")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
@@ -38,7 +38,7 @@ namespace WebApplication1.Controllers
             return Ok(appleResponse);
         }
 
-        // request example: http://localhost:49887/movies/?movie=avengers
+        // request example: http://localhost:49886/movies/?movie=avengers
         [HttpGet("/movies")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
