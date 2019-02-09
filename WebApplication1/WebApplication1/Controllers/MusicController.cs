@@ -29,8 +29,13 @@ namespace WebApplication1.Controllers
                    "&limit=" + searchLimit +
                    "&entity=" + entityType;
 
-            var jsonString = await this.GetAsync(url);
-            var appleResponse = JsonConvert.DeserializeObject<AppleResponse>(jsonString);
+            var responseString = await this.GetAsync(url);
+            if (responseString == null)
+            {
+                return NoContent();
+            }
+
+            var appleResponse = JsonConvert.DeserializeObject<AppleResponse>(responseString);
             if (appleResponse == null)
             {
                 return NotFound();
